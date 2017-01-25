@@ -33,7 +33,6 @@ export class AoneMgrService {
     }
 
 
-
   }
 
 
@@ -52,6 +51,10 @@ export class AoneMgrService {
         this.aone_segment_subject.next(segments_arr);
         this.aone_segment_subject.complete();
         this.aone_segment_read = true;
+      },
+      (err)=>{
+        this.aone_segment_subject.next([]);
+        this.aone_segment_subject.complete();
       }
     );
 

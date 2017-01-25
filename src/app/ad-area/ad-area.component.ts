@@ -35,7 +35,6 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit(){
@@ -62,23 +61,41 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
                         FONE_URL_SEED_AONESEG + aone_seg.join(",")
                          + FONE_URL_SEED_LAST;
     this.http.get(request_url)
-             .toPromise()
-             .then((response : any)=>{
-               const ad_data = response._body || "";
-               const ad_obj = JSON.parse(ad_data) || {};
-               const ad_content = ad_obj.adContent;
-               const impression_url = ad_obj.impressionUrl;
-               this.send_impression(impression_url);
-               this.show_ad(ad_content)
-               console.log(ad_obj);
-               return;
-             })
-             .catch((err)=>{
-               console.log(err)
-             })
+        .toPromise()
+        .then((response : any)=>{
+          const ad_data = response._body || "";
+          const ad_obj = JSON.parse(ad_data) || {};
+          console.log(ad_obj);
+          const ad_content = ad_obj.adContent;
+          this.show_ad(ad_content);
+          const impression_url = ad_obj.trackingData.impressionUrl;
+          this.send_impression(impression_url);
+          return;
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
   }
 
   send_impression(impression_url){
+    this.http.get(impression_url)
+      .toPromise()
+      .then(
+        ()=>{return;}
+      ).catch(
+        (err)=>{console.log(err)}
+      );
+
+/*
+    this.http.get("http://aaa.bbb")
+        .toPromise()
+        .then(
+          ()=>{return;}
+        ).catch(
+          (err)=>{
+          console.log(err)
+        });
+*/
 
   }
 
@@ -89,12 +106,6 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
     }else if(ad_content.stdBanner){
       this.show_stdBanner(ad_content.stdBanner)
     }
-
-
-    console.log(ad_content);
-    const ad_html_obj = ad_content.html || {};
-
-
 
   }
 
@@ -120,7 +131,7 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
       iframe.style.padding = "0px";
       iframe.scrolling = "no";
       iframe.frameBorder = "0";
-      window.EAS_src = content_fixed2;
+      iframe.EAS_src = content_fixed2;
       ad_root_element.appendChild(iframe);
     }
 
