@@ -86,23 +86,14 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
         (err)=>{console.log(err)}
       );
 
-/*
-    this.http.get("http://aaa.bbb")
-        .toPromise()
-        .then(
-          ()=>{return;}
-        ).catch(
-          (err)=>{
-          console.log(err)
-        });
-*/
+
 
   }
 
   show_ad(ad_content){
 
     if(ad_content.html){
-      this.show_html(ad_content.html);
+      this.show_html_aboutself(ad_content.html);
     }else if(ad_content.stdBanner){
       this.show_stdBanner(ad_content.stdBanner)
     }
@@ -134,9 +125,54 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
       iframe.EAS_src = content_fixed2;
       ad_root_element.appendChild(iframe);
     }
-
-
   }
+
+/*
+ http://kakakazuma.hatenablog.com/entry/2015/03/10/221117
+ http://so-zou.jp/web-app/tech/programming/javascript/dom/node/element/html/iframe/
+ http://so-zou.jp/web-app/tech/programming/javascript/dom/node/element/html/iframe/
+*/
+
+
+  show_html_aboutself(ad_html_obj){
+
+    const ad_html =  ad_html_obj.html || {};
+    const content_array = ad_html.split("document.write('");
+    const content_fixed = content_array.join("");
+    const content_array2 = content_fixed.split("\\n');");
+    const content_fixed2 = content_array2.join("");
+
+
+    const ad_root_element = this._el.querySelector(".ad_root");
+
+    if(ad_root_element){
+      const iframe : any = document.createElement("iframe");
+      iframe.src = "about:self";
+      iframe.style.width = this.width + "px";
+      iframe.style.height = this.height + "px";
+      iframe.style.margin = "0px";
+      iframe.style.borderWidth = "0px";
+      iframe.style.padding = "0px";
+      iframe.scrolling = "no";
+      iframe.frameBorder = "0";
+      iframe.EAS_src = content_fixed2;
+      ad_root_element.appendChild(iframe);
+      const doc = iframe.contentWindow.document;
+      doc.open()
+      let iframe_content = "<html><head></head><body>";
+      iframe_content += content_fixed2;
+      iframe_content += "'<script>inDapIF = true;</script>"
+      iframe_content +="</body></html>"
+      doc.write(iframe_content);
+      doc.close();
+    }
+  }
+
+
+
+
+
+
   show_stdBanner(stdBanner_obj){
     this.is_stdBanner = true;
     this.stdBanner_src = stdBanner_obj.src;
