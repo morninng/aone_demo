@@ -48,6 +48,7 @@ export class AoneMgrService {
       (segments_arr: [string])=>{
 
         this.store_segments(segments_arr);
+        console.log("segments are read in aone_mgr.service")
         this.aone_segment_subject.next(segments_arr);
         this.aone_segment_subject.complete();
         this.aone_segment_read = true;

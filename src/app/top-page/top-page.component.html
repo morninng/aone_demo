@@ -2,13 +2,14 @@
   top-page works!
 </p>
 
-middle rectangle
+middle rectangle 1
 
 <app-ad-area
   [channel]="'7/5'"
   [dimension]="'9'"
   [width]="300"
-  [height]="250"></app-ad-area>
+  [height]="250"
+  [wait_segment]="false"></app-ad-area>
 
 
 <br><br>
@@ -19,4 +20,29 @@ super banner
   [channel]="'7/5'"
   [dimension]="'14'"
   [width]="728"
-  [height]="90"></app-ad-area>
+  [height]="90"
+  [wait_segment]="false"></app-ad-area>
+
+
+
+
+<br><br>
+
+super banner 2
+
+<app-ad-area
+  [channel]="'7/5'"
+  [dimension]="'14'"
+  [width]="728"
+  [height]="90"
+  [wait_segment]="true"></app-ad-area>
+
+
+middle rectangle 2
+
+<app-ad-area
+  [channel]="'7/5'"
+  [dimension]="'9'"
+  [width]="300"
+  [height]="250"
+  [wait_segment]="true"></app-ad-area>

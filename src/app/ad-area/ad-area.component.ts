@@ -6,7 +6,6 @@ import {FONE_URL_SEED_BEGIN, FONE_URL_SEED_CHANNEL, FONE_URL_SEED_DIMENSION,
 
 import { Http } from '@angular/http';
 
-declare var window: any;
 
 @Component({
   selector: 'app-ad-area',
@@ -60,6 +59,7 @@ export class AdAreaComponent implements OnInit, AfterViewInit {
                         FONE_URL_SEED_HEIGHT + this.height + 
                         FONE_URL_SEED_AONESEG + aone_seg.join(",")
                          + FONE_URL_SEED_LAST;
+    console.log(request_url);
     this.http.get(request_url)
         .toPromise()
         .then((response : any)=>{
